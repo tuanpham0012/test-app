@@ -6,14 +6,20 @@ on:
             - main
 jobs:
     build-service:
-        runs-on: ubuntu-131
+        strategy:
+            matrix:
+                runner: [ubuntu-131, ubuntu-123]
+        runs-on: ${{ matrix.runner }}
         name: Create
         steps:
             - uses: actions/checkout@v4.2.2
             - run: docker compose -f docker-compose.yml up -d --build
 
     clear_up:
-        runs-on: ubuntu-131
+        strategy:
+            matrix:
+                runner: [ubuntu-131, ubuntu-123]
+        runs-on: ${{ matrix.runner }}
         steps:
             - name: clean build cache file
               run: docker builder prune -a -f
