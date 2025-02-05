@@ -1,0 +1,22 @@
+name: Create Infrastructure docker Container in sv
+
+on:
+    push:
+        branches:
+            - main
+jobs:
+    build-service:
+        runs-on: ubuntu-131
+        name: Create
+        steps:
+            - uses: actions/checkout@v4.2.2
+            - run: docker compose -f docker-compose.yml up -d --build
+
+    clear_up:
+        runs-on: ubuntu-131
+        steps:
+            - name: clean build cache file
+              run: docker builder prune -a -f
+            - name: clean all temp image
+              run: docker image prune -f
+        needs: build-service

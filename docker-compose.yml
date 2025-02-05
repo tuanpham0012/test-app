@@ -1,0 +1,26 @@
+services:
+    influxdb:
+        container_name: payment_influxdb
+        restart: always
+        image: influxdb:latest
+        ports:
+            - 11205:8086
+        volumes:
+            - influx_data:/var/lib/influxdb2
+        environment:
+            - TZ=Asia/Ho_Chi_Minh
+            - DOCKER_INFLUXDB_INIT_MODE=setup
+            - DOCKER_INFLUXDB_INIT_USERNAME=influx
+            - DOCKER_INFLUXDB_INIT_PASSWORD=Qigt567567fqig
+            - DOCKER_INFLUXDB_INIT_ORG=qigorg
+            - DOCKER_INFLUXDB_INIT_BUCKET=metrics
+            - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=qiginfluxdbtoken
+            - DOCKER_INFLUXDB_INIT_RETENTION=10w
+            - INFLUXD_SESSION_LENGTH=60000
+        networks:
+            - qipf-network
+networks:
+    qipf-network:
+        external: true
+volumes:
+    influx_data:
